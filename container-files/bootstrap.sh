@@ -15,9 +15,15 @@ sig_term () {
 install_ts3() {
   echo "Installing Teamspeak version: ${TS3_VERSION}"
   mkdir -p /opt/teamspeak
+  mkdir -p /opt/teamspeak-sql
+  mkdir -p /opt/teamspeak-channel
   touch /opt/teamspeak/.ts3server_license_accepted
   tar jxf /tmp/teamspeak.tar.bz2 -C /opt/teamspeak --strip-components=1
   rm -f /tmp/teamspeak.tar.bz2
+  rm /opt/teamspeak/ts3server.sqlitedb
+  ln -s $TS3_SQLPATH /opt/teamspeak/ts3server.sqlitedb
+  rm -rf /opt/teamspeak-channel/virtualserver_1
+  ln -s $TS3_CHANNELPATH /opt/teamspeak/files/virtualserver_1
   echo "Teamspeak version: ${TS3_VERSION} installed."
 }
 
