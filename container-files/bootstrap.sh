@@ -20,7 +20,7 @@ install_ts3() {
   touch /opt/teamspeak/.ts3server_license_accepted
   tar jxf /tmp/teamspeak.tar.bz2 -C /opt/teamspeak --strip-components=1
   rm -f /tmp/teamspeak.tar.bz2
-  rm /opt/teamspeak/ts3server.sqlitedb
+  rm -f /opt/teamspeak/ts3server.sqlitedb
   ln -s $TS3_SQLPATH /opt/teamspeak/ts3server.sqlitedb
   rm -rf /opt/teamspeak-channel/virtualserver_1
   ln -s $TS3_CHANNELPATH /opt/teamspeak/files/virtualserver_1
