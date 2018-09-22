@@ -3,7 +3,9 @@
 FROM alpine:latest
 
 ENV     TS3_VERSION=3.4.0 \
-        GLIBC_VERSION='2.27-r0'
+        GLIBC_VERSION='2.27-r0' \
+        TS3_SQLPATH=/opt/teamspeak-sql/ts3server.sqlitedb \
+        TS3_CHANNELPATH=/opt/teamspeak-channel/virtualserver_1
 
 RUN \
     apk --no-cache add ca-certificates wget; \
@@ -12,8 +14,8 @@ RUN \
     apk add glibc-${GLIBC_VERSION}.apk; \
     apk add --update bzip2; \
     rm -rf /tmp/* /var/tmp/* /var/cache/apk/* /var/cache/distfiles/* /glibc-${GLIBC_VERSION}.apk; \
-    wget http://dl.4players.de/ts/releases/${TS3_VERSION}/teamspeak3-server_linux_amd64-${TS3_VERSION}.tar.bz2 -O /tmp/teamspeak.tar.bz2
-
+    wget http://dl.4players.de/ts/releases/${TS3_VERSION}/teamspeak3-server_linux_amd64-${TS3_VERSION}.tar.bz2 -O /tmp/teamspeak.tar.bz2 \
+    
 COPY container-files /
 
 ENTRYPOINT ["/bootstrap.sh"]
