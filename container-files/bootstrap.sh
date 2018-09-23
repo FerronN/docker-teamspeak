@@ -1,6 +1,6 @@
 #!/bin/ash
 set -e
-TS3_DATABASE="/opt/teamspeak/ts3server.sqlitedb"
+
 # Functions
 sig_int () {
     echo "SIGINT received"
@@ -12,27 +12,24 @@ sig_term () {
     kill -15 ${pid}
 }
 
-install_ts3() {
-  echo "Installing Teamspeak version: ${TS3_VERSION}"
-  mkdir -p /opt/teamspeak
-  mkdir -p /opt/teamspeak-sql
-  mkdir -p /opt/teamspeak-channel
-  touch /opt/teamspeak/.ts3server_license_accepted
-  tar jxf /tmp/teamspeak.tar.bz2 -C /opt/teamspeak --strip-components=1
-  rm -f /tmp/teamspeak.tar.bz2
-  rm -f /opt/teamspeak/ts3server.sqlitedb
-  ln -s $TS3_SQLPATH /opt/teamspeak/ts3server.sqlitedb
-  rm -rf /opt/teamspeak/files/virtualserver_1
-  ln -s $TS3_CHANNELPATH /opt/teamspeak/files/virtualserver_1
-  echo "Teamspeak version: ${TS3_VERSION} installed."
-}
 
-if [[ ! -e ${TS3_DATABASE} ]]; then
-  install_ts3
+if [ "$(ls -A $TS3_SQLPATH)" ]; then
+     echo "Set symlink $TS3_SQLPATH is not Empty"
+     rm -f /opt/teamspeak/ts3server.sqlitedb
+     ln -s $TS3_SQLPATH /opt/teamspeak/ts3server.sqlitedb
 fi
 
-./opt/teamspeak/ts3server_minimal_runscript.sh $@ &
+if [ "$(ls -A $TS3_CHANNELPATH)" ]; then
+     echo "Set symlink $TS3_CHANNELPATH is not Empty"
+     rm -rf /opt/teamspeak/files/virtualserver_1
+     mkdir -p /opt/teamspeak/files
+     ln -s $TS3_CHANNELPATH /opt/teamspeak/files/virtualserver_1
+fi
+
+./ts3server_minimal_runscript.sh $@ &
+
 pid=$!
+
 trap sig_int  INT
 trap sig_term TERM
 
