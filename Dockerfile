@@ -2,7 +2,7 @@
 ### https://github.com/sgerrand/alpine-pkg-glibc
 FROM alpine:latest
 
-ENV     TS3_VERSION=3.7.1 \
+ENV     TS3_VERSION=3.9.1 \
         GLIBC_VERSION='2.29-r0' \
         TS3_SQLPATH=/opt/teamspeak-sql/ts3server.sqlitedb \
         TS3_CHANNELPATH=/opt/teamspeak-channel/virtualserver_1
