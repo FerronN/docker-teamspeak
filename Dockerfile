@@ -9,7 +9,7 @@ ENV     TS3_VERSION=3.9.1 \
 RUN \
     addgroup -S -g 1000 teamspeak && adduser -S -u 1000 teamspeak -G teamspeak; \
     apk --no-cache add ca-certificates wget; \
-    apk add libstdc++ --no-cache; \
+    apk add --no-cache libstdc++ su-exec; \
     wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub; \
     wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk; \
     apk add glibc-${GLIBC_VERSION}.apk; \
