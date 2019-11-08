@@ -14,7 +14,7 @@ RUN \
     apk add glibc-${GLIBC_VERSION}.apk; \
     apk add --update bzip2; \
     rm -rf /tmp/* /var/tmp/* /var/cache/apk/* /var/cache/distfiles/* /glibc-${GLIBC_VERSION}.apk; \
-    wget https://files.teamspeak-services.com/releases/server/${TS3_VERSION}/teamspeak3-server_linux_alpine-${TS3_VERSION}.tar.bz2 -O /tmp/teamspeak.tar.bz2;; \
+    wget https://files.teamspeak-services.com/releases/server/${TS3_VERSION}/teamspeak3-server_linux_alpine-${TS3_VERSION}.tar.bz2 -O /tmp/teamspeak.tar.bz2; \
     mkdir -p /opt/teamspeak; \
     mkdir -p /opt/teamspeak-sql; \
     mkdir -p /opt/teamspeak-channel; \
