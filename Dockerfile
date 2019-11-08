@@ -2,29 +2,26 @@
 ### https://github.com/sgerrand/alpine-pkg-glibc
 FROM alpine:latest
 
-ENV     TS3_VERSION=3.9.1 \
+ENV     TS3_VERSION=3.10.1 \
         GLIBC_VERSION='2.30-r0' \
         TS3_SQLPATH=/opt/teamspeak-sql/ts3server.sqlitedb \
         TS3_CHANNELPATH=/opt/teamspeak-channel/virtualserver_1
 RUN \
+    apk add --no-cache ca-certificates libstdc++ su-exec; \
     addgroup -S -g 1000 teamspeak && adduser -S -u 1000 teamspeak -G teamspeak; \
-    apk --no-cache add ca-certificates wget; \
-    apk add --no-cache libstdc++ su-exec; \
-    wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub; \
-    wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk; \
-    apk add glibc-${GLIBC_VERSION}.apk; \
-    apk add --update bzip2; \
-    rm -rf /tmp/* /var/tmp/* /var/cache/apk/* /var/cache/distfiles/* /glibc-${GLIBC_VERSION}.apk; \
+    apk add --no-cache --virtual .fetch-deps tar; \
     wget https://files.teamspeak-services.com/releases/server/${TS3_VERSION}/teamspeak3-server_linux_amd64-${TS3_VERSION}.tar.bz2 -O /tmp/teamspeak.tar.bz2; \
     mkdir -p /opt/teamspeak; \
     mkdir -p /opt/teamspeak-sql; \
     mkdir -p /opt/teamspeak-channel; \
     touch /opt/teamspeak/.ts3server_license_accepted; \
     tar jxf /tmp/teamspeak.tar.bz2 -C /opt/teamspeak --strip-components=1 && rm -f /tmp/teamspeak.tar.bz2; \
-    chown -R teamspeak:teamspeak /opt;
+    chown -R teamspeak:teamspeak /opt; \
+    ldconfig /usr/local/lib; \
+    apk del .fetch-deps; \
 
 COPY container-files /
-#USER teamspeak
+USER teamspeak
 WORKDIR /opt/teamspeak
 ENTRYPOINT ["/bootstrap.sh"]
 
