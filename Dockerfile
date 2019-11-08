@@ -1,6 +1,6 @@
 ### Alpine requires glibc to be present in the system below link to fficial repository
 ### https://github.com/sgerrand/alpine-pkg-glibc
-FROM alpine:3.10
+FROM alpine:latest
 
 ENV     TS3_VERSION=3.9.1 \
         GLIBC_VERSION='2.30-r0' \
@@ -24,7 +24,7 @@ RUN \
     chown -R teamspeak:teamspeak /opt;
 
 COPY container-files /
-USER teamspeak
+#USER teamspeak
 WORKDIR /opt/teamspeak
 ENTRYPOINT ["/bootstrap.sh"]
 
